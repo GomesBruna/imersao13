@@ -5,6 +5,15 @@ import (
 	"sync"
 )
 
+// Book Entity has the data to define the leadger of trades (Order[], Transactions[], OrdersChan, OrdersChanOut, Wg)
+// Order is a slice to the orders
+// Transactions is a slice to the transactions
+// OrdersChan is an input channel for the orders
+// OrdersChanOut is an output channel for the orders
+// Wg is an wait group
+// Channels are a typed conduit through which you can send and receive values by default, sends and receives block until the other side is ready. This allows goroutines to synchronize without explicit locks or condition variables.
+// Wait group is used to wait for multiple goroutines to finish, we can use a wait group. Sleep to simulate an expensive task.
+// A goroutine is a lightweight thread managed by the Go runtime.
 type Book struct {
 	Order         []*Order
 	Transactions  []*Transaction
@@ -13,6 +22,7 @@ type Book struct {
 	Wg            *sync.WaitGroup
 }
 
+// Business logic to create a new book
 func NewBook(orderChan chan *Order, orderChanOut chan *Order, wg *sync.WaitGroup) *Book {
 	return &Book{
 		Order:         []*Order{},

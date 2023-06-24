@@ -5,6 +5,7 @@ import (
 	"github.com/devfullcycle/imersao13/go/internal/market/entity"
 )
 
+// Function to transform the input DTO to an new asset, new investor, new order and asset position
 func TransformInput(input dto.TradeInput) *entity.Order {
 	asset := entity.NewAsset(input.AssetID, input.AssetID, 1000)
 	investor := entity.NewInvestor(input.InvestorID)
@@ -16,6 +17,7 @@ func TransformInput(input dto.TradeInput) *entity.Order {
 	return order
 }
 
+// Function to transform the object order in a DTO output
 func TransformOutput(order *entity.Order) *dto.OrderOutput {
 	output := &dto.OrderOutput{
 		OrderID:    order.ID,

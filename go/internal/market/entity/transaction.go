@@ -2,7 +2,7 @@ package entity
 
 import (
 	"time"
-
+	//UUID (Universally Unique Identifier) generator
 	"github.com/google/uuid"
 )
 
@@ -39,7 +39,7 @@ func (t *Transaction) CalculateTotal(shares int, price float64) {
 	t.Total = float64(t.Shares) * t.Price
 }
 
-// Business logic to close a buy order, where we change the order status to CLOSED
+// Business logic to close a buy order, where we change the order status to CLOSED if pending shares are 0
 // today is the same of the close sell order but two methods allow us to applied the single responsability from SOLID
 func (t *Transaction) CloseBuyOrder() {
 	if t.BuyingOrder.PendingShares == 0 {
@@ -47,7 +47,7 @@ func (t *Transaction) CloseBuyOrder() {
 	}
 }
 
-// Business logic to close a sell order, where we change the order status to CLOSED
+// Business logic to close a sell order, where we change the order status to CLOSED if pending shares are 0
 // today is the same of the close buy order but two methods allow us to applied the single responsability from SOLID
 func (t *Transaction) CloseSellOrder() {
 	if t.SellingOrder.PendingShares == 0 {

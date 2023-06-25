@@ -86,8 +86,8 @@ func (b *Book) Trade() {
 				}
 			}
 		} else if order.OrderType == "SELL" {
-			//sellOrders[asset].Push(order)
-			heap.Push(sellOrders[asset], order)
+			//sellOrders[asset].Push(order) -- insert like a queue - last position
+			heap.Push(sellOrders[asset], order) // insert in a sort way using heap
 			len_orders := buyOrders[asset].Len()
 			fmt.Printf("tamanho total de orders: %v \n", len_orders)
 			//if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[len_orders-1].Price >= order.Price { -- LIFO

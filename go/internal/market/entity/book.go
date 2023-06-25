@@ -86,7 +86,8 @@ func (b *Book) Trade() {
 			}
 		} else if order.OrderType == "SELL" {
 			sellOrders[asset].Push(order)
-			fmt.Sprintf("%f", buyOrders[asset].Orders[0].Price)
+			fmt.Println("Entrou no Sell order ID", string(order.ID) )
+			fmt.Printf("%v \n", buyOrders[asset].Orders[0].Price)
 			if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[0].Price >= order.Price {
 				fmt.Println("Entrou if sell")
 				buyOrder := buyOrders[asset].Pop().(*Order)

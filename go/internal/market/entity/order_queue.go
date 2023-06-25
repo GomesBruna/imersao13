@@ -31,9 +31,9 @@ func (oq *OrderQueue) Push(x interface{}) {
 func (oq *OrderQueue) Pop() interface{} {
 	old := oq.Orders
 	n := len(old)
-	//item := old[n-1] -- FILO
+	//item := old[n-1] -- LIFO
 	item := old[0] // FIFO
-	//oq.Orders = old[0 : n-1] -- FILO
+	//oq.Orders = old[0 : n-1] -- LIFO
 	oq.Orders = old[1:n] // FIFO
 	return item
 }

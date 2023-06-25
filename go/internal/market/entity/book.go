@@ -68,7 +68,8 @@ func (b *Book) Trade() {
 		// after that we create a new transaction, add a transaction to the book, add the transaction to both orders
 		// add the sell order and buy order to OrdersChanOut and if the order we remove from the queue has pending shares we add to the queue again
 		if order.OrderType == "BUY" {
-			buyOrders[asset].Push(order)
+			//buyOrders[asset].Push(order)
+			heap.Push(buyOrders[asset], order)
 			fmt.Println("entrou buy order ID ", string(order.ID))
 			if sellOrders[asset].Len() > 0 && sellOrders[asset].Orders[0].Price <= order.Price {
 				sellOrder := sellOrders[asset].Pop().(*Order)
@@ -85,10 +86,11 @@ func (b *Book) Trade() {
 				}
 			}
 		} else if order.OrderType == "SELL" {
-			sellOrders[asset].Push(order)
+			//sellOrders[asset].Push(order)
+			heap.Push(sellOrders[asset], order)
 			len_orders := buyOrders[asset].Len()
 			fmt.Printf("tamanho total de orders: %v \n", len_orders)
-			//if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[len_orders-1].Price >= order.Price { -- FILO
+			//if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[len_orders-1].Price >= order.Price { -- LIFO
 			if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[0].Price >= order.Price { // FIFO
 				fmt.Println("Entrou if sell")
 				buyOrder := buyOrders[asset].Pop().(*Order)

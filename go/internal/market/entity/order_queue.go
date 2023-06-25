@@ -1,4 +1,5 @@
 package entity
+
 // Order Queue Entity has the data to define a Queue to the orders (Orders [])
 // Orders is a slice using a pointer
 // This entity is used to match the orders
@@ -30,8 +31,10 @@ func (oq *OrderQueue) Push(x interface{}) {
 func (oq *OrderQueue) Pop() interface{} {
 	old := oq.Orders
 	n := len(old)
-	item := old[n-1]
-	oq.Orders = old[0 : n-1]
+	//item := old[n-1] -- FILO
+	item := old[0] // FIFO
+	//oq.Orders = old[0 : n-1] -- FILO
+	oq.Orders = old[1:n] // FIFO
 	return item
 }
 

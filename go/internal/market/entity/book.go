@@ -86,9 +86,10 @@ func (b *Book) Trade() {
 			}
 		} else if order.OrderType == "SELL" {
 			sellOrders[asset].Push(order)
-			fmt.Println("Entrou no Sell order ID", string(order.ID) )
-			fmt.Printf("%v \n", buyOrders[asset].Orders[0].Price)
-			if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[0].Price >= order.Price {
+			len_orders := buyOrders[asset].Len()
+			fmt.Printf("tamanho total de orders: %v \n", len_orders)
+			//if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[len_orders-1].Price >= order.Price { -- FILO
+			if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[0].Price >= order.Price { // FIFO
 				fmt.Println("Entrou if sell")
 				buyOrder := buyOrders[asset].Pop().(*Order)
 				if buyOrder.PendingShares > 0 {

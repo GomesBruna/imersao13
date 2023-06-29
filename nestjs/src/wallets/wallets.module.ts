@@ -9,9 +9,10 @@ import {
   WalletAssetSchema,
 } from './wallet-assets/wallet-asset.schema';
 
+// Wallet module, with Mongoose to inject Wallet Asset model 
 @Module({
   imports: [
-    MongooseModule.forFeature([
+    MongooseModule.forFeature([ // just wallet asset scheme, because mongoose use that only schema to send SSE
       { name: WalletAsset.name, schema: WalletAssetSchema },
     ]),
   ],

@@ -2,6 +2,7 @@
 
 import { OrderType } from '@prisma/client';
 
+// init transaction DTO, equal an order on Golang
 export class InitTransactionDto {
   asset_id: string;
   wallet_id: string;
@@ -11,6 +12,7 @@ export class InitTransactionDto {
 }
 //class-transformer class-validator
 
+// transaction DTO, multiples transaction per order
 export class InputExecuteTransactionDto {
   order_id: string;
   status: 'OPEN' | 'CLOSED';

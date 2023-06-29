@@ -5,10 +5,11 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Order, OrderSchema } from './order.schema';
 
+// Orders module, with Mongoose to inject Order model and Kafka register to get config to publish the orders
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
-    ClientsModule.register([
+    ClientsModule.register([ // method to client module to register the greeting-service
       {
         name: 'ORDERS_PUBLISHER',
         transport: Transport.KAFKA,

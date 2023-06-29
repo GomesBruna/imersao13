@@ -8,7 +8,7 @@ import { OrdersModule } from './orders/orders.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { SimulateAssetsPriceCommand } from './simulate-assets-price.command';
-
+// Main Module, import all modules (Asset, Prisma, Wallet,Order) and init Mongoose
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -16,9 +16,9 @@ import { SimulateAssetsPriceCommand } from './simulate-assets-price.command';
     AssetsModule,
     WalletsModule,
     OrdersModule,
-    MongooseModule.forRoot(process.env.DATABASE_URL),
+    MongooseModule.forRoot(process.env.DATABASE_URL), // connecting to mongoSb with mongoose
   ],
   controllers: [AppController],
-  providers: [AppService, SimulateAssetsPriceCommand],
+  providers: [AppService, SimulateAssetsPriceCommand], //The main idea of a provider is that it can be injected as a dependency
 })
 export class AppModule {}

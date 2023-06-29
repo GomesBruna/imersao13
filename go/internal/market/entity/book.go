@@ -72,7 +72,7 @@ func (b *Book) Trade() {
 			heap.Push(buyOrders[asset], order)
 			fmt.Println("entrou buy order ID ", string(order.ID))
 			if sellOrders[asset].Len() > 0 && sellOrders[asset].Orders[0].Price <= order.Price {
-				sellOrder := sellOrders[asset].Pop().(*Order)
+				sellOrder := heap.Pop(sellOrders[asset])  // sellOrders[asset].Pop().(*Order)
 				if sellOrder.PendingShares > 0 {
 					transaction := NewTransaction(sellOrder, order, order.Shares, sellOrder.Price)
 					b.AddTransaction(transaction, b.Wg)
@@ -81,7 +81,8 @@ func (b *Book) Trade() {
 					b.OrdersChanOut <- sellOrder
 					b.OrdersChanOut <- order
 					if sellOrder.PendingShares > 0 {
-						sellOrders[asset].Push(sellOrder)
+						heap.Push(sellOrders[asset], sellOrder)
+						//sellOrders[asset].Push(sellOrder)
 					}
 				}
 			}
@@ -93,7 +94,7 @@ func (b *Book) Trade() {
 			//if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[len_orders-1].Price >= order.Price { -- LIFO
 			if buyOrders[asset].Len() > 0 && buyOrders[asset].Orders[0].Price >= order.Price { // FIFO
 				fmt.Println("Entrou if sell")
-				buyOrder := buyOrders[asset].Pop().(*Order)
+				buyOrder := heap.Pop(buyOrders[asset]) // buyOrders[asset].Pop().(*Order)
 				if buyOrder.PendingShares > 0 {
 					transaction := NewTransaction(order, buyOrder, order.Shares, buyOrder.Price)
 					b.AddTransaction(transaction, b.Wg)
@@ -102,7 +103,8 @@ func (b *Book) Trade() {
 					b.OrdersChanOut <- buyOrder
 					b.OrdersChanOut <- order
 					if buyOrder.PendingShares > 0 {
-						buyOrders[asset].Push(buyOrder)
+						heap.Push(buyOrders[asset], buyOrder)
+						//buyOrders[asset].Push(buyOrder)
 					}
 				}
 			}

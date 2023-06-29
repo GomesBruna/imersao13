@@ -5,14 +5,17 @@ import { WalletAsset as WalletAssetSchema } from './wallet-asset.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Observable } from 'rxjs';
 import { WalletAsset } from '@prisma/client';
+
+// All .service files use injectable decorator allows .controller to use the methods through provides on .module file
 @Injectable()
 export class WalletAssetsService {
   constructor(
     private prismaService: PrismaService,
-    @InjectModel(WalletAssetSchema.name)
+    @InjectModel(WalletAssetSchema.name)  // Inject mogoose model
     private walletAssetModel: Model<WalletAssetSchema>,
   ) {}
 
+  // method to return all assets on a wallet id
   all(filter: { wallet_id: string }) {
     return this.prismaService.walletAsset.findMany({
       where: {
@@ -30,6 +33,7 @@ export class WalletAssetsService {
     });
   }
 
+  // method to create a new asset in the wallet id, with asset_id and shares
   create(input: { wallet_id: string; asset_id: string; shares: number }) {
     return this.prismaService.walletAsset.create({
       data: {
@@ -41,6 +45,7 @@ export class WalletAssetsService {
     });
   }
 
+  // method to create an observable to sent server events on wallet-asset-updated
   subscribeEvents(wallet_id: string): Observable<{
     event: 'wallet-asset-updated';
     data: WalletAsset;
@@ -68,7 +73,7 @@ export class WalletAssetsService {
           observer.next({
             event: 'wallet-asset-updated',
             data: walletAsset,
-          });
+          }); // sent the event
         });
     });
 
